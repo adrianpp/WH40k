@@ -7,10 +7,10 @@
 
 namespace WH40k {
 
-enum BaseType {NoBase, SmallBase, LargeBase};
 
 class Model {
 public:
+  enum BaseType {NoBase, SmallBase, LargeBase};
   virtual BaseType getBaseRadius()=0; //the base that the model is mounted on
 };
 
