@@ -1,6 +1,8 @@
 #include "Event.hh"
 #include <algorithm>
 
+namespace WH40k {
+
 EventBase::EventBase()
 {
 }
@@ -72,4 +74,7 @@ void EventRouter::publishEvent(EventBase* event)
 {
 	publishEvent(std::shared_ptr<EventBase>(event));
 }
+
+
+};
 

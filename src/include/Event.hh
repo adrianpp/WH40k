@@ -1,13 +1,12 @@
-// Copyright (c) 2012 Algotochip Corporation.  All rights reserved.
-// 530 Lakeside Drive, Suite 260, Sunnyvale, CA, 94085, USA
-
-#ifndef _CBSIM_EVENT_H__
-#define _CBSIM_EVENT_H__
+#ifndef _WH40K_EVENT_H__
+#define _WH40K_EVENT_H__
 
 #include <string>
 #include <vector>
 #include <map>
 #include <memory>
+
+namespace WH40k {
 
 class EventBase {
 public:
@@ -49,6 +48,8 @@ public:
 	void unregisterListener(std::shared_ptr<ListenerBase> listener, EventBase::Topic topic="*"); //default to all topics
 	void publishEvent(std::shared_ptr<EventBase> event);
 	void publishEvent(EventBase* event); //utility function that constructs shared_ptr and passes it to publish; will take ownership
+};
+
 };
 
 #endif
