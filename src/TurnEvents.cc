@@ -4,22 +4,22 @@ namespace WH40k {
 
 EventBase::Topic TurnStartEvent::getTopic()
 {
-    return "TurnEvent";
+    return "TurnEvent::Start";
 }
 
 EventBase::Topic TurnEndEvent::getTopic()
 {
-    return "TurnEvent";
+    return "TurnEvent::End";
 }
 
 EventBase::Topic PhaseStartEvent::getTopic()
 {
-    return "TurnEvent";
+    return "TurnEvent::Phase::Start";
 }
 
 EventBase::Topic PhaseEndEvent::getTopic()
 {
-    return "TurnEvent";
+    return "TurnEvent::Phase::End";
 }
 
 }

@@ -45,17 +45,26 @@ each phase sends events that can be acted on by models, for example by adding or
 #ifndef _WH40K_GAMEENGINE_H__
 #define _WH40K_GAMEENGINE_H__
 
+#include <vector>
 #include "Event.hh"
+#include "Model.hh"
 
 namespace WH40k {
 
 class GameEngine {
 public:
     GameEngine(EventRouter& router);
-    void gameLoop();
+    void addModel(std::shared_ptr<Model> model);
+    bool startTurn();
+    bool gotoMovementPhase();
+    bool gotoPsychicPhase();
+    bool gotoShootingPhase();
+    bool gotoAssaultPhase();
+    bool endTurn();
 private:
     EventRouter& router;
     int turnNumber;
+    std::vector<std::shared_ptr<Model>> model_list;
 };
 
 }

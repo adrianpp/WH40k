@@ -10,8 +10,9 @@ namespace WH40k {
 
 class Model {
 public:
-  enum BaseType {NoBase, SmallBase, LargeBase};
+  enum BaseType {NoBase, SmallBase, LargeBase, Vehicle};
   virtual BaseType getBaseRadius()=0; //the base that the model is mounted on
+  virtual int getMovement(); //the movement of the model
 };
 
 };
