@@ -6,12 +6,18 @@
 namespace WH40k {
 
 class TurnStartEvent : public EventBase {
+public:
+	virtual Topic getTopic();
 };
 
 class TurnEndEvent : public EventBase {
+public:
+	virtual Topic getTopic();
 };
 
 class PhaseStartEvent : public EventBase {
+public:
+	virtual Topic getTopic();
 };
 
 class MovementPhaseStartEvent : public PhaseStartEvent {
@@ -27,6 +33,8 @@ class AssaultPhaseStartEvent : public PhaseStartEvent {
 };
 
 class PhaseEndEvent : public EventBase {
+public:
+	virtual Topic getTopic();
 };
 
 class MovementPhaseEndEvent : public PhaseEndEvent {

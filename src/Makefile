@@ -1,8 +1,15 @@
 INC=-I./include/
 
 CXXFLAGS=$(INC) --std=c++0x
+OBJS=Infantry.o Event.o Model.o GameEngine.o main.o TurnEvents.o
+EXECUTABLE=test_main
 
-all: Infantry.o Event.o Model.o GameEngine.o main.o
+#rules
+
+all: $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJS)
+	$(CXX) $(LDFLAGS) -o $@ $^
 
 clean:
-	rm *.o
+	rm -f *.o $(EXECUTABLE)
