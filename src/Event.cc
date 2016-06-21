@@ -17,8 +17,9 @@ ListenerBase::ListenerBase()
 
 std::vector<EventBase::Topic> getAllPossibleTopics(EventBase::Topic topic) //given a topic like MachineEvent::Memory::Read, returns the topics *, MachineEvent::*, MachineEvent::Memory::*, and MachineEvent::Memory::Read
 {
-	std::vector<EventBase::Topic> ret;
-	size_t pos = 0;
+    std::vector<EventBase::Topic> ret;
+	ret.push_back("*"); //default * topic
+    size_t pos = 0;
 	while( true )
 	{
 		size_t new_pos = topic.find("::", pos);
