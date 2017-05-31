@@ -14,7 +14,7 @@ void eventPrinter(std::shared_ptr<EventBase> event)
 
 class TacticalSpaceMarine : public BasicInfantry {
 public:
-    TacticalSpaceMarine() : BasicInfantry(6, 4, 4, 4, 4, 1, 4, 1, 8, 3) {}
+    TacticalSpaceMarine() : BasicInfantry(6, 4, 4, 4, 4, 1, 1, 8, 3) {}
     virtual std::string getFaction() {return "Ultramarines";}
     virtual std::vector<std::string> getFactionKeywords() {
       return {"Imperium", "Adeptus Astartes", getFaction()};
