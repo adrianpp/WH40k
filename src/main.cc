@@ -2,7 +2,7 @@
 
 #include "GameEngine.hh"
 #include "TurnEvents.hh"
-#include "Infantry.hh"
+#include "BasicInfantry.hh"
 
 using namespace WH40k;
 
@@ -11,9 +11,9 @@ void eventPrinter(std::shared_ptr<EventBase> event)
     std::cout << "Event: " << event->getTopic() << std::endl;
 }
 
-class TacticalSpaceMarine : public InfantryBasic {
+class TacticalSpaceMarine : public BasicInfantry {
 public:
-    TacticalSpaceMarine() : InfantryBasic(6, 4, 4, 4, 4, 1, 4, 1, 8, 3) {}
+    TacticalSpaceMarine() : BasicInfantry(6, 4, 4, 4, 4, 1, 4, 1, 8, 3) {}
     virtual std::string getFaction() {return "Ultramarines";}
     virtual std::vector<std::string> getFactionKeywords() {
       return {"Imperium", "Adeptus Astartes", getFaction()};

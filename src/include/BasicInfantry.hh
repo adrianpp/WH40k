@@ -6,9 +6,9 @@
 
 namespace WH40k {
 
-class InfantryBasic : public Model {
+class BasicInfantry : public Model {
 public:
-    InfantryBasic(int m, int ws, int bs, int s, int t, int w, int i, int a, int ld, int as, Model::BaseType baseType=Model::SmallBase);
+    BasicInfantry(int m, int ws, int bs, int s, int t, int w, int i, int a, int ld, int as, Model::BaseType baseType=Model::SmallBase);
     virtual int getMovement();
     virtual int getWeaponSkill();
     virtual int getBallisticSkill();
