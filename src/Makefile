@@ -1,7 +1,7 @@
 INC=-I./include/
 
 CXXFLAGS=$(INC) --std=c++0x
-OBJS=BasicInfantry.o Event.o Model.o GameEngine.o main.o TurnEvents.o
+OBJS=BasicInfantry.o Event.o Model.o GameEngine.o main.o TurnEvents.o QueryEvents.o
 EXECUTABLE=test_main
 
 #rules
