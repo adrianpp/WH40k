@@ -15,7 +15,13 @@ public:
 
 class QueryAttributeMovement : public QueryAttribute {
 public:
+    QueryAttributeMovement(std::shared_ptr<Model>);
     virtual std::string attributeName();
+    virtual std::shared_ptr<Model> whichModel();
+    int& getCurrentMovement();
+private:
+    std::shared_ptr<Model> model;
+    int current_movement;
 };
 
 }
