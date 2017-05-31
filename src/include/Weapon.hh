@@ -8,10 +8,11 @@ class Weapon {
 public:
   enum Type {Melee, RapidFire, Assault, Bomb, Heavy, Ordnance, Pistol, PrimaryWeapon, Salvo};
 	virtual Type getType()=0;
-	virtual int getRange()=0; //can be template shaped
+	virtual int getRange()=0;
     virtual int getStrength()=0; //can be based off user strength
 	virtual int getArmourPiercingValue()=0;
 	virtual int getNumShots()=0;
+    virtual int getDamage()=0;
 };
 
 };

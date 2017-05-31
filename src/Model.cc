@@ -2,10 +2,5 @@
 
 namespace WH40k {
 
-int Model::getMovement()
-{
-    return 6;
-}
-
 }
 
