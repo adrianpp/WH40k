@@ -46,6 +46,17 @@ private:
     int _n, _s;
 };
 
+class NumberSourceAdapter {
+public:
+    NumberSourceAdapter(int t) : _hold(new Constant(t)) {}
+    NumberSourceAdapter(NumberSource* p) : _hold(p) {}
+    NumberSourceAdapter(std::shared_ptr<NumberSource> p) : _hold(p) {}
+
+    std::shared_ptr<NumberSource> get(){return _hold;}
+private:
+    std::shared_ptr<NumberSource> _hold;
+};
+
 class Attribute {
 public:
     Attribute(std::string name) : _name(name) {}
@@ -57,7 +68,7 @@ public:
 
 class Weapon {
 public:
-    Weapon(std::string name, std::shared_ptr<NumberSource> s, std::shared_ptr<NumberSource> ap, std::shared_ptr<NumberSource> n, std::shared_ptr<NumberSource> d) : _name(name), _s(s), _ap(ap), _n(n), _d(d) {}
+    Weapon(std::string name, NumberSourceAdapter s, NumberSourceAdapter ap, NumberSourceAdapter n, NumberSourceAdapter d) : _name(name), _s(s.get()), _ap(ap.get()), _n(n.get()), _d(d.get()) {}
     std::string getName(){return _name;}
     int getStrength(){return _s->getValue();}
 	int getArmourPiercingValue(){return _ap->getValue();}
@@ -132,18 +143,6 @@ int getWoundsSuffered(Model shooter, Weapon w, Model shootee)
     return woundsSuffered;
 }
 
-template<int i>
-class C : public std::shared_ptr<NumberSource> {
-public:
-    C() : std::shared_ptr<NumberSource>(new Constant(i)) {}
-};
-
-template<int N, int S>
-class D : public std::shared_ptr<NumberSource> {
-public:
-    D() : std::shared_ptr<NumberSource>(new Dice(N,S)) {}
-};
-
 template<class F>
 class FunctionalNumberSource : public NumberSource {
 public:
@@ -163,21 +162,21 @@ int main()
 {
     std::srand(time(NULL));
     Model *shooter, *target;
-    //list of common used number sources
-    std::shared_ptr<NumberSource> C0{C<0>()}, C1{C<1>()}, D3{D<1,3>()}, D6{D<1,6>()};
+    //list of common used dice number sources
+    std::shared_ptr<NumberSource> D3{new Dice(1,3)}, D6{new Dice(1,6)};
     //list of weapons
-    Weapon bolter("bolter", C<4>(), C0, C1, C1);
-    Weapon grav_gun("gravGun", C<5>(), C<-3>(), C1, functionalSource([&target](){if(target->getArmourSave()<=3) return Dice(1,3).roll(); return 1;}));
-    Weapon gravcannon("gravCannon", C<5>(), C<-3>(), C<4>(), functionalSource([&target](){if(target->getArmourSave()<=3) return Dice(1,3).roll(); return 1;}));
-    Weapon lascannon("lascannon", C<9>(), C<-3>(), C1, D6);
-    Weapon acid_spray("acidSpray", functionalSource([&shooter](){return shooter->getStrength();}), C<-1>(), D6, D3);
+    Weapon bolter("bolter", 4, 0, 1, 1);
+    Weapon grav_gun("gravGun", 5, -3, 1, functionalSource([&target](){if(target->getArmourSave()<=3) return Dice(1,3).roll(); return 1;}));
+    Weapon gravcannon("gravCannon", 5, -3, 4, functionalSource([&target](){if(target->getArmourSave()<=3) return Dice(1,3).roll(); return 1;}));
+    Weapon lascannon("lascannon", 9, -3, 1, D6);
+    Weapon acid_spray("acidSpray", functionalSource([&shooter](){return shooter->getStrength();}), -1, D6, D3);
     acid_spray.attr(Attribute("autohit"));
-    Weapon fleshborer_hive("fleshborerHive", C<5>(), C0, C<20>(), C1);
-    Weapon stinger_salvo("stingerSalvo", C<5>(), C<-1>(), C<4>(), C1);
-    Weapon rupture_cannon("ruptureCannon", C<10>(), functionalSource([&rupture_cannon](){if(rupture_cannon.property("num_hits") == 2) return -4; return -1;}), C<2>(), functionalSource([&rupture_cannon](){if(rupture_cannon.property("num_hits") == 2) return Dice(1,6).roll(); return 2;}));
-    Weapon fleshborer("fleshborer", C<4>(), C0, C1, C1);
-    Weapon devourer("devourer", C<4>(), C0, C<3>(), C1);
-    Weapon deathspitter("deathspitter", C<5>(), C<-1>(), C<3>(), C1);
+    Weapon fleshborer_hive("fleshborerHive", 5, 0, 20, 1);
+    Weapon stinger_salvo("stingerSalvo", 5, -1, 4, 1);
+    Weapon rupture_cannon("ruptureCannon", 10, functionalSource([&rupture_cannon](){if(rupture_cannon.property("num_hits") == 2) return -4; return -1;}), 2, functionalSource([&rupture_cannon](){if(rupture_cannon.property("num_hits") == 2) return Dice(1,6).roll(); return 2;}));
+    Weapon fleshborer("fleshborer", 4, 0, 1, 1);
+    Weapon devourer("devourer", 4, 0, 3, 1);
+    Weapon deathspitter("deathspitter", 5, -1, 3, 1);
     //list of models
     std::vector<Model> allModels = {
             Model("SpaceMarine", 6, 3, 3, 4, 4, 1, 1, 8, 3, {bolter, grav_gun, gravcannon, lascannon}),
@@ -188,6 +187,7 @@ int main()
             Model("Termagant", 6, 4, 4, 3, 3, 1, 1, 5, 6, {fleshborer, devourer}),
             Model("TyranidWarrior", 6, 3, 4, 4, 4, 3, 3, 9, 4, {devourer, deathspitter}),
             Model("Carnifex", 7, 4, 4, 6, 7, 8, 4, 6, 3, {}),
+            Model("Test4P", 6, 4, 4, 6, 7, 8, 4, 6, 4, {}),
             Model("Tyrannofex", 6, 4, 4, 7, 8, 14, 4, 7, 3, {acid_spray, fleshborer_hive, stinger_salvo, rupture_cannon})
         };
 
